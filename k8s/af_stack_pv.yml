@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: af-svc-pv
+  labels:
+    app: af_pv
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+  selector:
+    app: af_pv
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: afpvdepl
+spec:
+  selector:
+    matchLabels:
+      app: af_pv
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: af_pv
+    spec:
+      containers:
+      - name: nusrartifactory
+        image: mattgruter/artifactory
+        volumeMounts:
+          - name: af-persistent-storage
+            mountPath: /artifactory/data
+            subPath: nusr_af
+      volumes:
+        - name: af-persistent-storage
+          # pointer to the configuration of HOW we want the mount to be implemented
+          persistentVolumeClaim:
+            claimName: af-pvc

@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: af-svc
+  labels:
+    app: af
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+  selector:
+    app: af
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: afdepl
+spec:
+  selector:
+    matchLabels:
+      app: af
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: af
+    spec:
+      containers:
+      - name: nusrartif
+        image: mattgruter/artifactory
