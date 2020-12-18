@@ -1,8 +1,8 @@
 
 Pre-Requisites:
-AWS CLI
-Kubectl
-Terraform
+AWS CLI,
+Kubectl,
+Terraform,
 Git
 
 References:
